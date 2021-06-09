@@ -6,12 +6,15 @@ from flask import jsonify
 from classes.circuit import Circuit
 from classes.color_scheme import ColorScheme
 from classes.constructor import Constructor
+from classes.constructor_standing import ConstructorStanding
 from classes.driver import Driver
+from classes.driver_standing import DriverStanding
 from classes.fastest_lap import FastestLap
 from classes.qualifying_result import QualifyingResult
 from classes.race import Race
 from classes.session_result import SessionResult
 from classes.session_results_group import SessionResultsGroup
+from helpers.circuit import circuit_helper
 from helpers.circuit.circuit_helper import load_json, get_circuit
 
 
@@ -37,11 +40,11 @@ def get_schedule():
 
         # Circuit properties
 
-        circuit_json = load_json('helpers/circuit/circuits.json')
+        circuit_json = circuit_helper.load_json('helpers/circuit/circuits.json')
 
         c = r['Circuit']
 
-        current_c = get_circuit(circuit_json, c['circuitId'])
+        current_c = circuit_helper.get_circuit(circuit_json, c['circuitId'])
 
         circuit_id = c['circuitId']
         circuit_name = c['circuitName']
@@ -61,7 +64,38 @@ def get_schedule():
         race = Race(race_round, race_name, circuit, date_time)
         races.append(race.serialize())
 
-    return jsonify(races)
+    return races
+
+
+def get_circuit(circuit_id):
+    response = requests.get(f'http://ergast.com/api/f1/circuits/{circuit_id}.json')
+
+    if response.status_code != 200:
+        return jsonify({
+            'error': f'api response code {response.status_code}'
+        })
+
+    c = response.json()['MRData']['CircuitTable']['Circuits'][0]
+    circuit_json = circuit_helper.load_json('helpers/circuit/circuits.json')
+
+    current_c = circuit_helper.get_circuit(circuit_json, c['circuitId'])
+
+    circuit_id = c['circuitId']
+    circuit_name = c['circuitName']
+    city = c['Location']['locality']
+    country = c['Location']['country']
+    image_location = current_c['image_location']
+    first_gp = current_c['first_gp']
+    number_of_laps = current_c['number_of_laps']
+    length = current_c['length']
+    race_distance = current_c['race_distance']
+    gjson_map = current_c['gjson_map']
+    color_scheme = ColorScheme(current_c['primary_color'], current_c['secondary'], current_c['tertiary'])
+
+    circuit = Circuit(circuit_id, circuit_name, city, country, image_location, first_gp, number_of_laps, length,
+                      race_distance, gjson_map, color_scheme)
+
+    return circuit
 
 
 def get_driver_from_ergast_data(data, constructor):
@@ -117,7 +151,7 @@ def get_qualifying_results(gp_round):
         quali_res = QualifyingResult(position, driver, qualifying_1, qualifying_2, qualifying_3)
         quali_results.append(quali_res)
 
-    return jsonify(SessionResultsGroup(date_time, quali_results).serialize())
+    return SessionResultsGroup(date_time, quali_results).serialize()
 
 
 def get_race_results(gp_round):
@@ -144,7 +178,7 @@ def get_race_results(gp_round):
 
         status = r['status']
         points = r['points']
-        fastest_lap = None
+        fastest_lap = FastestLap()
 
         if 'FastestLap' in r:
             rank = r['FastestLap']['rank']
@@ -156,7 +190,7 @@ def get_race_results(gp_round):
         race_res = SessionResult(position, driver, status, points, fastest_lap)
         race_results.append(race_res)
 
-    return jsonify(SessionResultsGroup(date_time, race_results).serialize())
+    return SessionResultsGroup(date_time, race_results).serialize()
 
 
 def get_all_driver():
@@ -178,6 +212,70 @@ def get_all_driver():
     return drivers
 
 
+def get_drivers_standing():
+    response = requests.get('http://ergast.com/api/f1/current/driverStandings.json')
+    if response.status_code != 200:
+        return jsonify({
+            'error': f'api response code {response.status_code}'
+        })
+
+    result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
+    drivers = []
+    for i in range(len(result)):
+        d = result[i]
+        constructor = get_constructor_from_ergast_data(d['Constructors'][0])
+        driver = get_driver_from_ergast_data(d['Driver'], constructor)
+        position = d['position']
+        points = d['points']
+        wins = d['wins']
+
+        driver_standing = DriverStanding(position, points, wins, driver)
+        drivers.append(driver_standing)
+
+    return drivers
+
+
+def get_all_team():
+    response = requests.get('http://ergast.com/api/f1/current/constructorStandings.json')
+    if response.status_code != 200:
+        return jsonify({
+            'error': f'api response code {response.status_code}'
+        })
+
+    result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
+    teams = []
+    for i in range(len(result)):
+        t = result[i]
+        constructor = get_constructor_from_ergast_data(t['Constructor'])
+
+        teams.append(constructor)
+
+    return teams
+
+
+def get_teams_standing():
+    response = requests.get('http://ergast.com/api/f1/current/constructorStandings.json')
+    if response.status_code != 200:
+        return jsonify({
+            'error': f'api response code {response.status_code}'
+        })
+
+    result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
+    teams = []
+    for i in range(len(result)):
+        t = result[i]
+        constructor = get_constructor_from_ergast_data(t['Constructor'])
+        position = t['position']
+        points = t['points']
+        wins = t['wins']
+
+        constructor_standing = ConstructorStanding(position, points, wins, constructor)
+
+        teams.append(constructor_standing)
+
+    return teams
+
+
 def get_driver_by_code(code):
     drivers = get_all_driver()
 
@@ -185,3 +283,16 @@ def get_driver_by_code(code):
         d = drivers[i]
         if d.code == code:
             return d
+
+
+def get_tweets(max):
+    my_twitter_bearier_code = 'AAAAAAAAAAAAAAAAAAAAADMCQgEAAAAAxhXAjDGboVXagHd5QH9c5jra5%2Bo%3DI3yZvEbd35XF6dJnX1fhNq0d3dO4mgVIv41lAUoaix79V7yZ3Y'
+    headers = {"Authorization": f"Bearer {my_twitter_bearier_code}"}
+    response = requests.get(f'https://api.twitter.com/2/users/69008563/tweets?max_results={max}', headers=headers)
+    if response.status_code != 200:
+        return jsonify({
+            'error': f'api response code {response.status_code}'
+        })
+
+    result = response.json()
+    return result

@@ -3,7 +3,7 @@ class FreePracticeResult:
     driver = None
     fastest_lap = None
 
-    def __init__(self, position, driver, fastest_lap):
+    def __init__(self, position='', driver='', fastest_lap=''):
         self.fastest_lap = fastest_lap
         self.driver = driver
         self.position = position

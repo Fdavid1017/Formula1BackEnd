@@ -5,7 +5,7 @@ class QualifyingResult:
     qualifying_2 = None
     qualifying_3 = None
 
-    def __init__(self, position, driver, qualifying_1, qualifying_2, qualifying_3):
+    def __init__(self, position='', driver='', qualifying_1='', qualifying_2='', qualifying_3=''):
         self.qualifying_3 = qualifying_3
         self.qualifying_2 = qualifying_2
         self.qualifying_1 = qualifying_1

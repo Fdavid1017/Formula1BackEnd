@@ -3,7 +3,7 @@ class ColorScheme:
     secondary = '#fffff'
     tertiary = '#fffff'
 
-    def __init__(self, primary, secondary, tertiary):
+    def __init__(self, primary='', secondary='', tertiary=''):
         self.tertiary = tertiary
         self.secondary = secondary
         self.primary = primary

@@ -6,7 +6,7 @@ class Driver:
     family_name = ''
     constructor = None
 
-    def __init__(self, driver_id, number, code, given_name, family_name, constructor):
+    def __init__(self, driver_id='', number='', code='', given_name='', family_name='', constructor=''):
         self.constructor = constructor
         self.family_name = family_name
         self.given_name = given_name

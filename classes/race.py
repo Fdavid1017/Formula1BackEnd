@@ -7,7 +7,7 @@ class Race:
     circuit = None
     date_time = datetime.datetime.now
 
-    def __init__(self, race_round, race_name, circuit, date_time):
+    def __init__(self, race_round='', race_name='', circuit='', date_time=''):
         self.date_time = date_time
         self.circuit = circuit
         self.race_name = race_name

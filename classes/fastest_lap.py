@@ -4,7 +4,7 @@ class FastestLap:
     time = None
     avg_speed = None
 
-    def __init__(self, rank, lap, time, avg_speed):
+    def __init__(self, rank='', lap='', time='', avg_speed=''):
         self.avg_speed = avg_speed
         self.time = time
         self.lap = lap

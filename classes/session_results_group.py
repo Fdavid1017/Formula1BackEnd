@@ -2,9 +2,9 @@ class SessionResultsGroup:
     session_dateTime = None
     results = []
 
-    def __init__(self, session_dateTime, results):
+    def __init__(self, session_datetime='', results=''):
         self.results = results
-        self.session_dateTime = session_dateTime
+        self.session_dateTime = session_datetime
 
     def serialize(self):
         result = []

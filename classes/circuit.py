@@ -11,8 +11,9 @@ class Circuit:
     gjson_map = ''
     color_scheme = None
 
-    def __init__(self, circuit_id, name, city, country, image_location, first_gp, number_of_laps, length, race_distance,
-                 gjson_map, color_scheme):
+    def __init__(self, circuit_id='', name='', city='', country='', image_location='', first_gp='', number_of_laps='',
+                 length='', race_distance='',
+                 gjson_map='', color_scheme=''):
         self.color_scheme = color_scheme
         self.gjson_map = gjson_map
         self.race_distance = race_distance

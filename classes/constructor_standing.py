@@ -1,10 +1,10 @@
-class ContructorStanding:
+class ConstructorStanding:
     position = None
     points = None
     wins = None
     constructor = None
 
-    def __init__(self, position, points, wins, constructor):
+    def __init__(self, position='', points='', wins='', constructor=''):
         self.constructor = constructor
         self.wins = wins
         self.points = points
@@ -12,7 +12,7 @@ class ContructorStanding:
 
     def serialize(self):
         return {
-            'constructor': self.constructor,
+            'constructor': self.constructor.serialize(),
             'wins': self.wins,
             'points': self.points,
             'position': self.position

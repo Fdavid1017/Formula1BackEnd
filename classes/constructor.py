@@ -2,7 +2,7 @@ class Constructor:
     constructor_id = None
     name = ''
 
-    def __init__(self, constructor_id, name):
+    def __init__(self, constructor_id='', name=''):
         self.name = name
         self.constructor_id = constructor_id
 

@@ -5,7 +5,7 @@ class SessionResult:
     points = None
     fastest_lap = None
 
-    def __init__(self, position, driver, status, points, fastest_lap):
+    def __init__(self, position='', driver='', status='', points='', fastest_lap=''):
         self.fastest_lap = fastest_lap
         self.points = points
         self.status = status

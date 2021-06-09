@@ -4,7 +4,7 @@ class DriverStanding:
     wins = None
     driver = None
 
-    def __init__(self, position, points, wins, driver):
+    def __init__(self, position='', points='', wins='', driver=''):
         self.driver = driver
         self.wins = wins
         self.points = points
