@@ -3,8 +3,10 @@ class SessionResult:
     driver = None
     status = ''
     points = None
+    fastest_lap = None
 
-    def __init__(self, position, driver, status, points):
+    def __init__(self, position, driver, status, points, fastest_lap):
+        self.fastest_lap = fastest_lap
         self.points = points
         self.status = status
         self.driver = driver
@@ -14,6 +16,7 @@ class SessionResult:
         return {
             'points': self.points,
             'status': self.status,
-            'driver': self.driver,
-            'position': self.position
+            'driver': self.driver.serialize(),
+            'position': self.position,
+            'fastest_lap': self.fastest_lap.serialize()
         }

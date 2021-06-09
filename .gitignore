@@ -114,5 +114,7 @@ dmypy.json
 .pyre/
 
 # Pycharm files
-
 .idea/
+
+# FastF1 cache
+cache/
