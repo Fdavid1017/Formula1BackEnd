@@ -157,3 +157,31 @@ def get_race_results(gp_round):
         race_results.append(race_res)
 
     return jsonify(SessionResultsGroup(date_time, race_results).serialize())
+
+
+def get_all_driver():
+    response = requests.get('http://ergast.com/api/f1/current/driverStandings.json')
+    if response.status_code != 200:
+        return jsonify({
+            'error': f'api response code {response.status_code}'
+        })
+
+    result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
+    drivers = []
+    for i in range(len(result)):
+        d = result[i]
+        constructor = get_constructor_from_ergast_data(d['Constructors'][0])
+        driver = get_driver_from_ergast_data(d['Driver'], constructor)
+
+        drivers.append(driver)
+
+    return drivers
+
+
+def get_driver_by_code(code):
+    drivers = get_all_driver()
+
+    for i in range(len(drivers)):
+        d = drivers[i]
+        if d.code == code:
+            return d
