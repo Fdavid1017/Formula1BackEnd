@@ -101,6 +101,10 @@ def get_circuit_infos(circuit_id):
 def get_laps_for_session(gp_name, session_type, return_format):
     laps = fast_f1_helper.get_laps(gp_name, session_type)
 
+    laps = laps.drop(
+        columns=['Stint', 'PitOutTime', 'PitInTime', 'Sector1SessionTime', 'Sector2SessionTime', 'Sector3SessionTime',
+                 'FreshTyre', 'LapStartTime', 'IsAccurate'])
+    print(f'Returning {len(laps.index)} row of telemetry data for the {gp_name} GP')
     if return_format == 'html':
         return laps.to_html()
     elif return_format == 'csv':
@@ -110,14 +114,18 @@ def get_laps_for_session(gp_name, session_type, return_format):
 
 
 @app.route(
-    '/api/get_telemetry_for_session_and_driver/<string:gp_name>/<string:session_type>/<string:driver>/<string:return_format>',
+    '/api/get_telemetry_for_session_and_driver/<string:gp_name>/<string:session_type>/<string:driver>/<string'
+    ':return_format>',
     methods=['GET'])
 @app.route('/api/get_telemetry_for_session_and_driver/<string:gp_name>/<string:session_type>/<string:driver>',
            methods=['GET'],
            defaults={'return_format': 'json'})
 def get_telemetry_for_session_and_driver(gp_name, session_type, driver, return_format):
     telemetry = fast_f1_helper.get_telemetry(gp_name, session_type, driver)
-
+    telemetry.fill_missing()
+    telemetry = telemetry.drop(
+        columns=['Date', 'DriverAhead', 'DistanceToDriverAhead', 'Source', 'Distance', 'Status', 'RelativeDistance'])
+    print(f'Returning {len(telemetry.index)} row of telemetry data for {driver}')
     if return_format == 'html':
         return telemetry.to_html()
     elif return_format == 'csv':
@@ -127,6 +135,25 @@ def get_telemetry_for_session_and_driver(gp_name, session_type, driver, return_f
         return telemetry.to_string()
     else:
         return telemetry.to_json()
+
+
+@app.route('/api/get_weather_for_session/<string:gp_name>/<string:session_type>/<string:return_format>',
+           methods=['GET'])
+@app.route('/api/get_weather_for_session/<string:gp_name>/<string:session_type>', methods=['GET'],
+           defaults={'return_format': 'json'})
+def get_weather_for_session(gp_name, session_type, return_format):
+    weather = fast_f1_helper.get_weather(gp_name, session_type)
+    weather = weather.drop(columns=['Humidity', 'Pressure', 'Rainfall'])
+    print(f'Returning {len(weather.index)} row of weather data')
+    if return_format == 'html':
+        return weather.to_html()
+    elif return_format == 'csv':
+        # USE CSV FOR SMALLEST SIZE AND FOR FASTER PROCESSING
+        return weather.to_csv()
+    elif return_format == 'string':
+        return weather.to_string()
+    else:
+        return weather.to_json()
 
 
 @app.route('/api/get_tweets/<int:max_tweet>', methods=['GET'])

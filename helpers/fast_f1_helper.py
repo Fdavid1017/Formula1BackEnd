@@ -47,3 +47,9 @@ def get_telemetry(session_name, session_type, driver):
     session = ff1.get_session(2021, session_name, session_type)
     session.load_laps(with_telemetry=True)
     return session.laps.pick_driver(driver).get_telemetry()
+
+
+def get_weather(session_name, session_type):
+    session = ff1.get_session(2021, session_name, session_type)
+    session.load_laps()
+    return session.laps.get_weather_data()
