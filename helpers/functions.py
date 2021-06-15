@@ -296,3 +296,30 @@ def get_tweets(max):
 
     result = response.json()
     return result
+
+
+def sort_by_constructor_standing(drivers, constructors):
+    constructor_position_map = {}
+
+    for i in range(len(constructors)):
+        c = constructors[i]
+        constructor_position_map[c.constructor_id] = i
+
+    print(constructor_position_map)
+
+    new_drivers = []
+
+    for d in drivers:
+        position = constructor_position_map[d.constructor.constructor_id]
+        new_d = d.__dict__
+        new_d['constructor_position'] = position
+        new_drivers.append(new_d)
+
+    new_drivers.sort(key=lambda t: t['constructor_position'])
+    drivers_list = []
+
+    for d in new_drivers:
+        driver = Driver(d['driver_id'], d['number'], d['code'], d['given_name'], d['family_name'], d['constructor'])
+        drivers_list.append(driver)
+
+    return drivers_list
