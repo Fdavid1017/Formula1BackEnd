@@ -121,7 +121,7 @@ def get_constructor_from_ergast_data(data):
     name = data['name']
     color_scheme = get_constructor_color_scheme(constructor_id)
 
-    return Constructor(constructor_id, name,color_scheme)
+    return Constructor(constructor_id, name, color_scheme)
 
 
 def get_qualifying_results(gp_round):
@@ -307,7 +307,7 @@ def get_tweets(max):
     return result
 
 
-def sort_by_constructor_standing(drivers, constructors):
+def sort_by_constructor_standing(drivers, constructors, is_standing=False):
     constructor_position_map = {}
 
     for i in range(len(constructors)):
@@ -317,7 +317,14 @@ def sort_by_constructor_standing(drivers, constructors):
     new_drivers = []
 
     for d in drivers:
-        position = constructor_position_map[d.constructor.constructor_id]
+        key = None
+
+        if is_standing:
+            key = d.driver.constructor.constructor_id
+        else:
+            key = d.constructor.constructor_id
+
+        position = constructor_position_map[key]
         new_d = d.__dict__
         new_d['constructor_position'] = position
         new_drivers.append(new_d)
@@ -325,8 +332,17 @@ def sort_by_constructor_standing(drivers, constructors):
     new_drivers.sort(key=lambda t: t['constructor_position'])
     drivers_list = []
 
-    for d in new_drivers:
-        driver = Driver(d['driver_id'], d['number'], d['code'], d['given_name'], d['family_name'], d['constructor'])
-        drivers_list.append(driver)
+    for t in new_drivers:
+        driver = None
+
+        if is_standing:
+            d = t['driver']
+            driver = Driver(d.driver_id, d.number, d.code, d.given_name, d.family_name, d.constructor)
+            standing = DriverStanding(t['position'], t['points'], t['wins'], d)
+            drivers_list.append(standing)
+        else:
+            d = t
+            driver = Driver(d['driver_id'], d['number'], d['code'], d['given_name'], d['family_name'], d['constructor'])
+            drivers_list.append(driver)
 
     return drivers_list

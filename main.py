@@ -60,7 +60,7 @@ def get_all_driver(order_by):
 
     if order_by == 'name':
         drivers.sort(key=lambda d: d.given_name)
-    elif order_by == 'constructor_standing':
+    elif order_by == 'constructor':
         drivers = functions.sort_by_constructor_standing(drivers, functions.get_all_team())
     else:
         drivers.sort(key=lambda d: d.constructor.name)
@@ -86,10 +86,15 @@ def get_all_team(order_by):
     return jsonify(teams)
 
 
-@app.route('/api/get_drivers_standing', methods=['GET'])
+@app.route('/api/get_drivers_standing', methods=['GET'], defaults={'order_by': None})
+@app.route('/api/get_drivers_standing/<string:order_by>', methods=['GET'])
 @cross_origin()
-def get_drivers_standing():
+def get_drivers_standing(order_by):
     drivers = functions.get_drivers_standing()
+
+    if order_by == 'constructor':
+        drivers = functions.sort_by_constructor_standing(drivers, functions.get_all_team(),True)
+
     for i in range(len(drivers)):
         drivers[i] = drivers[i].serialize()
 
