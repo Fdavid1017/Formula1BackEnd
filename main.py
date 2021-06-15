@@ -12,6 +12,7 @@ plotting.setup_mpl()
 ff1.Cache.enable_cache('cache')
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
 
 @app.route('/api/get_schedule', methods=['GET'])

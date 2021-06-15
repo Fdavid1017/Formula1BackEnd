@@ -98,6 +98,14 @@ def get_circuit(circuit_id):
     return circuit
 
 
+def get_constructor_color_scheme(constructor_id):
+    json = load_json('helpers/constructor_color_scheme.json')
+    colorSheme = ColorScheme(json[constructor_id]['primary'], json[constructor_id]['secondary'],
+                             json[constructor_id]['tertiary'])
+
+    return colorSheme
+
+
 def get_driver_from_ergast_data(data, constructor):
     driver_id = data['driverId']
     driver_number = data['permanentNumber']
@@ -111,8 +119,9 @@ def get_driver_from_ergast_data(data, constructor):
 def get_constructor_from_ergast_data(data):
     constructor_id = data['constructorId']
     name = data['name']
+    color_scheme = get_constructor_color_scheme(constructor_id)
 
-    return Constructor(constructor_id, name)
+    return Constructor(constructor_id, name,color_scheme)
 
 
 def get_qualifying_results(gp_round):
@@ -304,8 +313,6 @@ def sort_by_constructor_standing(drivers, constructors):
     for i in range(len(constructors)):
         c = constructors[i]
         constructor_position_map[c.constructor_id] = i
-
-    print(constructor_position_map)
 
     new_drivers = []
 
