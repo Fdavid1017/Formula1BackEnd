@@ -1,13 +1,13 @@
 {
   "red_bull": {
     "primary": "#12142d",
-    "secondary": "#ffea00",
+    "secondary": "#CEB735",
     "tertiary": "#ff0126"
   },
   "mercedes": {
     "primary": "#00D2BE",
-    "secondary": "#d9d8d6",
-    "tertiary": "#0d0d0d"
+    "secondary": "#0d0d0d",
+    "tertiary": "#d9d8d6"
   },
   "ferrari": {
     "primary": "#f60100",
@@ -42,7 +42,7 @@
   "haas": {
     "primary": "#0c4280",
     "secondary": "#cb2f32",
-    "tertiary": "#f5f5f5"
+    "tertiary": "#e0e0e0"
   },
   "williams": {
     "primary": "#177aa4",
