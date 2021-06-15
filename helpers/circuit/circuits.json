@@ -1,7 +1,7 @@
 [
   {
     "circuit_id": "bahrain",
-    "image_location": "image/bahrain.png",
+    "image_location": "bahrain.png",
     "first_gp": 2004,
     "number_of_laps": 57,
     "length": 5.412,
@@ -13,7 +13,7 @@
   },
   {
     "circuit_id": "imola",
-    "image_location": "image/imola.png",
+    "image_location": "imola.png",
     "first_gp": 1980,
     "number_of_laps": 63,
     "length": 4.909,
@@ -25,7 +25,7 @@
   },
   {
     "circuit_id": "portimao",
-    "image_location": "image/portimao.png",
+    "image_location": "portimao.png",
     "first_gp": 2020,
     "number_of_laps": 66,
     "length": 4.653,
@@ -37,7 +37,7 @@
   },
   {
     "circuit_id": "catalunya",
-    "image_location": "image/catalunya.png",
+    "image_location": "catalunya.png",
     "first_gp": 1991,
     "number_of_laps": 66,
     "length": 4.675,
@@ -49,7 +49,7 @@
   },
   {
     "circuit_id": "monaco",
-    "image_location": "image/monaco.png",
+    "image_location": "monaco.png",
     "first_gp": 1991,
     "number_of_laps": 66,
     "length": 4.675,
@@ -61,7 +61,7 @@
   },
   {
     "circuit_id": "BAK",
-    "image_location": "image/BAK.png",
+    "image_location": "BAK.png",
     "first_gp": 2016,
     "number_of_laps": 51,
     "length": 6.003,
@@ -73,7 +73,7 @@
   },
   {
     "circuit_id": "ricard",
-    "image_location": "image/ricard.png",
+    "image_location": "ricard.png",
     "first_gp": 2016,
     "number_of_laps": 51,
     "length": 6.003,
@@ -85,7 +85,7 @@
   },
   {
     "circuit_id": "red_bull_ring",
-    "image_location": "image/red_bull_ring.png",
+    "image_location": "red_bull_ring.png",
     "first_gp": 1970,
     "number_of_laps": 71,
     "length": 4.318,
@@ -97,7 +97,7 @@
   },
   {
     "circuit_id": "silverstone",
-    "image_location": "image/silverstone.png",
+    "image_location": "silverstone.png",
     "first_gp": 1950,
     "number_of_laps": 52,
     "length": 5.891,
@@ -109,7 +109,7 @@
   },
   {
     "circuit_id": "hungaroring",
-    "image_location": "image/hungaroring.png",
+    "image_location": "hungaroring.png",
     "first_gp": 1986,
     "number_of_laps": 70,
     "length": 4.381,
@@ -121,7 +121,7 @@
   },
   {
     "circuit_id": "spa",
-    "image_location": "image/spa.png",
+    "image_location": "spa.png",
     "first_gp": 1950,
     "number_of_laps": 44,
     "length": 7.004,
@@ -133,7 +133,7 @@
   },
   {
     "circuit_id": "zandvoort",
-    "image_location": "image/zandvoort.png",
+    "image_location": "zandvoort.png",
     "first_gp": 1952,
     "number_of_laps": 72,
     "length": 4.259,
@@ -145,7 +145,7 @@
   },
   {
     "circuit_id": "monza",
-    "image_location": "image/monza.png",
+    "image_location": "monza.png",
     "first_gp": 1950,
     "number_of_laps": 53,
     "length": 5.793,
@@ -157,7 +157,7 @@
   },
   {
     "circuit_id": "sochi",
-    "image_location": "image/sochi.png",
+    "image_location": "sochi.png",
     "first_gp": 2014,
     "number_of_laps": 53,
     "length": 5.848,
@@ -169,7 +169,7 @@
   },
   {
     "circuit_id": "marina_bay",
-    "image_location": "image/marina_bay.png",
+    "image_location": "marina_bay.png",
     "first_gp": 2008,
     "number_of_laps": 61,
     "length": 5.063,
@@ -181,7 +181,7 @@
   },
   {
     "circuit_id": "suzuka",
-    "image_location": "image/suzuka.png",
+    "image_location": "suzuka.png",
     "first_gp": 1987,
     "number_of_laps": 53,
     "length": 5.807,
@@ -193,7 +193,7 @@
   },
   {
     "circuit_id": "americas",
-    "image_location": "image/americas.png",
+    "image_location": "americas.png",
     "first_gp": 2012,
     "number_of_laps": 56,
     "length": 5.513,
@@ -205,7 +205,7 @@
   },
   {
     "circuit_id": "rodriguez",
-    "image_location": "image/rodriguez.png",
+    "image_location": "rodriguez.png",
     "first_gp": 1963,
     "number_of_laps": 71,
     "length": 4.304,
@@ -217,7 +217,7 @@
   },
   {
     "circuit_id": "interlagos",
-    "image_location": "image/interlagos.png",
+    "image_location": "interlagos.png",
     "first_gp": 1973,
     "number_of_laps": 71,
     "length": 4.309,
@@ -229,7 +229,7 @@
   },
   {
     "circuit_id": "interlagos",
-    "image_location": "image/interlagos.png",
+    "image_location": "interlagos.png",
     "first_gp": 1973,
     "number_of_laps": 71,
     "length": 4.309,
@@ -241,7 +241,7 @@
   },
   {
     "circuit_id": "albert_park",
-    "image_location": "image/albert_park.png",
+    "image_location": "albert_park.png",
     "first_gp": 1996,
     "number_of_laps": 58,
     "length": 5.303,
@@ -253,7 +253,7 @@
   },
   {
     "circuit_id": "jeddah",
-    "image_location": "image/jeddah.png",
+    "image_location": "jeddah.png",
     "first_gp": 2021,
     "number_of_laps": 50,
     "length": 6.175,
@@ -265,7 +265,7 @@
   },
   {
     "circuit_id": "yas_marina",
-    "image_location": "image/yas_marina.png",
+    "image_location": "yas_marina.png",
     "first_gp": 2009,
     "number_of_laps": 55,
     "length": 5.554,
