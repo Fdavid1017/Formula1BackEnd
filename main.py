@@ -22,6 +22,7 @@ from resources.telemetry import Telemetry
 
 # Fast F1 setup
 from resources.tweets import Tweets
+from resources.weather import Weather
 
 plotting.setup_mpl()
 ff1.Cache.enable_cache('cache')
@@ -44,33 +45,9 @@ api.add_resource(Circuit, '/api/circuit/<string:circuit_id>', endpoint="circuit"
 api.add_resource(Laps, '/api/laps/<string:gp_name>/<string:session_type>', endpoint="laps")
 api.add_resource(Tweets, '/api/tweets', endpoint="tweets")
 api.add_resource(NextTweets, '/api/next_tweets', endpoint="next_tweets")
-# api.add_resource(Telemetry, '/api/telemetry/<string:gp_name>/<string:session_type>/<string:driver>',
-#                  endpoint="telemetry")
-
-# @app.route(
-#     '/api/get_telemetry_for_session_and_driver/<string:gp_name>/<string:session_type>/<string:driver>/<string'
-#     ':return_format>',
-#     methods=['GET'])
-# @app.route('/api/get_telemetry_for_session_and_driver/<string:gp_name>/<string:session_type>/<string:driver>',
-#            methods=['GET'],
-#            defaults={'return_format': 'json'})
-# @cross_origin()
-# def get_telemetry_for_session_and_driver(gp_name, session_type, driver, return_format):
-#     telemetry = fast_f1_helper.get_telemetry(gp_name, session_type, driver)
-#     telemetry.fill_missing()
-#     telemetry = telemetry.drop(
-#         columns=['Date', 'DriverAhead', 'DistanceToDriverAhead', 'Source', 'Distance', 'Status', 'RelativeDistance'])
-#     print(f'Returning {len(telemetry.index)} row of telemetry data for {driver}')
-#     if return_format == 'html':
-#         return telemetry.to_html()
-#     elif return_format == 'csv':
-#         # USE CSV FOR SMALLEST SIZE AND FOR FASTER PROCESSING
-#         return telemetry.to_csv()
-#     elif return_format == 'string':
-#         return telemetry.to_string()
-#     else:
-#         return telemetry.to_json()
-#
+api.add_resource(Telemetry, '/api/telemetry/<string:gp_name>/<string:session_type>/<string:driver>',
+                 endpoint="telemetry")
+api.add_resource(Weather, '/api/weather/<string:gp_name>/<string:session_type>', endpoint="weather")
 #
 # @app.route('/api/get_weather_for_session/<string:gp_name>/<string:session_type>/<string:return_format>',
 #            methods=['GET'])

@@ -16,10 +16,32 @@ class Telemetry(Resource):
         driver = driver.upper()
 
         telemetry = get_telemetry(gp_name, session_type, driver)
-        # telemetry.fill_missing()
+        telemetry.fill_missing()
+
+        # if 'Date' in telemetry.columns:
+        #     telemetry = telemetry.drop(columns=['Date'])
+        #
+        # if 'DriverAhead' in telemetry.columns:
+        #     telemetry = telemetry.drop(columns=['DriverAhead'])
+        #
+        # if 'DistanceToDriverAhead' in telemetry.columns:
+        #     telemetry = telemetry.drop(columns=['DistanceToDriverAhead'])
+        #
+        # if 'Source' in telemetry.columns:
+        #     telemetry = telemetry.drop(columns=['Source'])
+        #
+        # if 'Distance' in telemetry.columns:
+        #     telemetry = telemetry.drop(columns=['Distance'])
+        #
+        # if 'Status' in telemetry.columns:
+        #     telemetry = telemetry.drop(columns=['Status'])
+        #
+        # if 'RelativeDistance' in telemetry.columns:
+        #     telemetry = telemetry.drop(columns=['RelativeDistance'])
+
         telemetry = telemetry.drop(
             columns=['Date', 'DriverAhead', 'DistanceToDriverAhead', 'Source', 'Distance', 'Status',
-                     'RelativeDistance'])
+                     'RelativeDistance'], errors='ignore')
         print(f'Returning {len(telemetry.index)} row of telemetry data for {driver}')
 
         if return_format == 'html':
