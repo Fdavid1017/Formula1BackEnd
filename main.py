@@ -48,25 +48,6 @@ api.add_resource(NextTweets, '/api/next_tweets', endpoint="next_tweets")
 api.add_resource(Telemetry, '/api/telemetry/<string:gp_name>/<string:session_type>/<string:driver>',
                  endpoint="telemetry")
 api.add_resource(Weather, '/api/weather/<string:gp_name>/<string:session_type>', endpoint="weather")
-#
-# @app.route('/api/get_weather_for_session/<string:gp_name>/<string:session_type>/<string:return_format>',
-#            methods=['GET'])
-# @app.route('/api/get_weather_for_session/<string:gp_name>/<string:session_type>', methods=['GET'],
-#            defaults={'return_format': 'json'})
-# @cross_origin()
-# def get_weather_for_session(gp_name, session_type, return_format):
-#     weather = fast_f1_helper.get_weather(gp_name, session_type)
-#     weather = weather.drop(columns=['Humidity', 'Pressure', 'Rainfall'])
-#     print(f'Returning {len(weather.index)} row of weather data')
-#     if return_format == 'html':
-#         return weather.to_html()
-#     elif return_format == 'csv':
-#         # USE CSV FOR SMALLEST SIZE AND FOR FASTER PROCESSING
-#         return weather.to_csv()
-#     elif return_format == 'string':
-#         return weather.to_string()
-#     else:
-#         return weather.to_json()
 
 if __name__ == '__main__':
     app.run(debug=True)

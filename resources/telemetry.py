@@ -1,3 +1,7 @@
+import json
+
+from fastf1.api import SessionNotAvailableError
+from flask import Response
 from flask_restful import Resource, reqparse
 
 from helpers.fast_f1_helper import get_telemetry
@@ -15,8 +19,27 @@ class Telemetry(Resource):
         session_type = session_type.upper()
         driver = driver.upper()
 
-        telemetry = get_telemetry(gp_name, session_type, driver)
-        telemetry.fill_missing()
+        try:
+            telemetry = get_telemetry(gp_name, session_type, driver)
+            telemetry.fill_missing()
+        except SessionNotAvailableError as e:
+            print(e)
+            response = Response(
+                response=json.dumps({'error': str(e)}),
+                status=500, mimetype='application/json')
+            return response
+        except AttributeError as e:
+            print(e)
+            response = Response(
+                response=json.dumps({'error': str(e)}),
+                status=500, mimetype='application/json')
+            return response
+        except ValueError as e:
+            print(e)
+            response = Response(
+                response=json.dumps({'error': str(e)}),
+                status=500, mimetype='application/json')
+            return response
 
         # if 'Date' in telemetry.columns:
         #     telemetry = telemetry.drop(columns=['Date'])
