@@ -1,0 +1,2 @@
+class InvalidPracticeNumberException(Exception):
+    pass

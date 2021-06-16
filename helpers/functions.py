@@ -14,6 +14,9 @@ from classes.qualifying_result import QualifyingResult
 from classes.race import Race
 from classes.session_result import SessionResult
 from classes.session_results_group import SessionResultsGroup
+from exceptions.api_request_exception import ApiRequestException
+from exceptions.no_circuit_exception import NoCircuitException
+from exceptions.no_round_exception import NoRoundException
 from helpers.circuit import circuit_helper
 from helpers.circuit.circuit_helper import load_json, get_circuit
 
@@ -22,9 +25,7 @@ def get_schedule():
     response = requests.get('http://ergast.com/api/f1/current.json')
 
     if response.status_code != 200:
-        return jsonify({
-            'error': f'api response code {response.status_code}'
-        })
+        raise ApiRequestException(f'Api responded with status code {response.status_code}')
 
     result = response.json()['MRData']['RaceTable']['Races']
 
@@ -71,9 +72,10 @@ def get_circuit(circuit_id):
     response = requests.get(f'http://ergast.com/api/f1/circuits/{circuit_id}.json')
 
     if response.status_code != 200:
-        return jsonify({
-            'error': f'api response code {response.status_code}'
-        })
+        raise ApiRequestException(f'Api responded with status code {response.status_code}')
+
+    if len(response.json()['MRData']['CircuitTable']['Circuits']) == 0:
+        raise NoCircuitException(f'No circuit found with id = {circuit_id}')
 
     c = response.json()['MRData']['CircuitTable']['Circuits'][0]
     circuit_json = circuit_helper.load_json('helpers/circuit/circuits.json')
@@ -128,9 +130,10 @@ def get_qualifying_results(gp_round):
     response = requests.get(f'http://ergast.com/api/f1/current/{gp_round}/qualifying.json')
 
     if response.status_code != 200:
-        return jsonify({
-            'error': f'api response code {response.status_code}'
-        })
+        raise ApiRequestException(f'Api responded with status code {response.status_code}')
+
+    if len(response.json()['MRData']['RaceTable']['Races']) == 0:
+        raise NoRoundException(f'No qualifying found with round = {gp_round}')
 
     result = response.json()['MRData']['RaceTable']['Races'][0]
     dt = result['date'] + ' ' + str(result['time']).replace('Z', '')
@@ -160,16 +163,17 @@ def get_qualifying_results(gp_round):
         quali_res = QualifyingResult(position, driver, qualifying_1, qualifying_2, qualifying_3)
         quali_results.append(quali_res)
 
-    return SessionResultsGroup(date_time, quali_results).serialize()
+    return SessionResultsGroup(date_time, quali_results)
 
 
 def get_race_results(gp_round):
     response = requests.get(f'http://ergast.com/api/f1/current/{gp_round}/results.json')
 
     if response.status_code != 200:
-        return jsonify({
-            'error': f'api response code {response.status_code}'
-        })
+        raise ApiRequestException(f'Api responded with status code {response.status_code}')
+
+    if len(response.json()['MRData']['RaceTable']['Races']) == 0:
+        raise NoRoundException(f'No race found with round = {gp_round}')
 
     result = response.json()['MRData']['RaceTable']['Races'][0]
     dt = result['date'] + ' ' + str(result['time']).replace('Z', '')
@@ -204,10 +208,9 @@ def get_race_results(gp_round):
 
 def get_all_driver():
     response = requests.get('http://ergast.com/api/f1/current/driverStandings.json')
+
     if response.status_code != 200:
-        return jsonify({
-            'error': f'api response code {response.status_code}'
-        })
+        raise ApiRequestException(f'Api responded with status code {response.status_code}')
 
     result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
     drivers = []
@@ -247,9 +250,7 @@ def get_drivers_standing():
 def get_all_team():
     response = requests.get('http://ergast.com/api/f1/current/constructorStandings.json')
     if response.status_code != 200:
-        return jsonify({
-            'error': f'api response code {response.status_code}'
-        })
+        raise ApiRequestException(f'Api responded with status code {response.status_code}')
 
     result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
     teams = []
@@ -265,9 +266,7 @@ def get_all_team():
 def get_teams_standing():
     response = requests.get('http://ergast.com/api/f1/current/constructorStandings.json')
     if response.status_code != 200:
-        return jsonify({
-            'error': f'api response code {response.status_code}'
-        })
+        raise ApiRequestException(f'Api responded with status code {response.status_code}')
 
     result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
     teams = []

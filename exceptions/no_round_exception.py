@@ -1,0 +1,2 @@
+class NoRoundException(Exception):
+    pass

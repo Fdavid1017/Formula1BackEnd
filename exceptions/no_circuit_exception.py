@@ -1,0 +1,2 @@
+class NoCircuitException(Exception):
+    pass
