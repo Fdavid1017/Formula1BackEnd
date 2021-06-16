@@ -1,10 +1,9 @@
 import fastf1 as ff1
 from fastf1 import plotting
-
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 
-from helpers import fast_f1_helper, functions
 from resources.circuit import Circuit
 from resources.constructor_standings import ConstructorStandings
 from resources.constructors import Constructors
@@ -16,10 +15,7 @@ from resources.practice import Practice
 from resources.qualifying import Qualifying
 from resources.race import Race
 from resources.schedule import Schedule
-from flask_cors import CORS, cross_origin
-
 from resources.telemetry import Telemetry
-
 # Fast F1 setup
 from resources.tweets import Tweets
 from resources.weather import Weather

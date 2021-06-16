@@ -1,5 +1,4 @@
 import requests
-from flask import jsonify
 
 from exceptions.api_request_exception import ApiRequestException
 

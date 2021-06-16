@@ -4,7 +4,7 @@ from flask import jsonify, Response
 from flask_restful import Resource
 
 from exceptions.api_request_exception import ApiRequestException
-from helpers.functions import get_schedule
+from helpers.ergast_api_helper import get_schedule
 
 
 class Schedule(Resource):

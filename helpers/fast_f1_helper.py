@@ -8,16 +8,6 @@ from classes.session_results_group import SessionResultsGroup
 from helpers import functions
 
 
-def get_weekend_results(weekend_name):
-    weekend = ff1.get_session(2021, weekend_name)
-
-    fp1_results = get_fastest_laps_from_session(weekend.get_practice(1))
-    fp2_results = get_fastest_laps_from_session(weekend.get_practice(2))
-    fp3_results = get_fastest_laps_from_session(weekend.get_practice(3))
-    quali = get_fastest_laps_from_session(weekend.get_quali())
-    race = get_fastest_laps_from_session(weekend.get_race())
-
-
 def get_fastest_laps_from_session(session_name, session_type):
     session = ff1.get_session(2021, session_name, session_type)
     session.load_laps()
@@ -41,20 +31,6 @@ def get_laps(session_name, session_type):
     session = ff1.get_session(2021, session_name, session_type)
     session.load_laps()
     return session.laps
-
-
-def get_telemetry1(session_name, session_type, driver):
-    session = ff1.get_session(2021, session_name, session_type)
-    session.load_laps(with_telemetry=True)
-    return session.laps.pick_driver(driver).get_telemetry()
-
-
-def get_telemetry2(session_name, session_type, driver):
-    race = ff1.get_session(2021, session_name, session_type)
-    laps = race.load_laps(with_telemetry=True)
-    driver_laps = laps.pick_driver(driver)
-
-    return driver_laps.get_telemetry()
 
 
 def get_telemetry(session_name, session_type, driver):

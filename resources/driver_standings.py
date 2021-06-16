@@ -4,7 +4,8 @@ from flask import jsonify, Response
 from flask_restful import Resource, reqparse
 
 from exceptions.api_request_exception import ApiRequestException
-from helpers.functions import get_all_team, sort_by_constructor_standing, get_drivers_standing
+from helpers.ergast_api_helper import get_drivers_standing, get_all_team
+from helpers.functions import sort_by_constructor_standing
 
 
 class DriverStandings(Resource):

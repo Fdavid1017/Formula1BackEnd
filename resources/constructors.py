@@ -4,7 +4,7 @@ from flask import jsonify, Response
 from flask_restful import Resource, reqparse
 
 from exceptions.api_request_exception import ApiRequestException
-from helpers.functions import get_all_team
+from helpers.ergast_api_helper import get_all_team
 
 
 class Constructors(Resource):

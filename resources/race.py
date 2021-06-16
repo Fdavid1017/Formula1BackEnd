@@ -4,7 +4,7 @@ from flask import jsonify, Response
 from flask_restful import Resource
 
 from exceptions.no_round_exception import NoRoundException
-from helpers.functions import get_race_results
+from helpers.ergast_api_helper import get_race_results
 
 
 class Race(Resource):
