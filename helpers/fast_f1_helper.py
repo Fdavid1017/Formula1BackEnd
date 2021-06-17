@@ -5,7 +5,7 @@ import fastf1 as ff1
 from classes.fastest_lap import FastestLap
 from classes.free_practice_result import FreePracticeResult
 from classes.session_results_group import SessionResultsGroup
-from helpers import functions
+from helpers.drivers_helper import get_driver_by_code
 
 
 def get_fastest_laps_from_session(session_name, session_type):
@@ -16,7 +16,7 @@ def get_fastest_laps_from_session(session_name, session_type):
 
     session_results = []
     for index, row in unique.iterrows():
-        driver = functions.get_driver_by_code(row['Driver'])
+        driver = get_driver_by_code(row['Driver'])
         fastest_lap = FastestLap(index + 1, row['LapNumber'], str(row['LapTime']), '')
         fp_res = FreePracticeResult(index + 1, driver, fastest_lap)
 

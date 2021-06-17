@@ -97,6 +97,20 @@ def get_circuit(circuit_id):
     return circuit
 
 
+def get_circuit_for_gp(gp_round):
+    response = requests.get(f'http://ergast.com/api/f1/current/{gp_round}/circuits.json')
+
+    if response.status_code != 200:
+        raise ApiRequestException(f'Api responded with status code {response.status_code}')
+
+    if len(response.json()['MRData']['CircuitTable']['Circuits']) == 0:
+        raise NoRoundException(f'No grand prix found with round = {gp_round}')
+
+    result = response.json()['MRData']['CircuitTable']['Circuits'][0]
+
+    return get_circuit(result['circuitId'])
+
+
 def get_qualifying_results(gp_round):
     response = requests.get(f'http://ergast.com/api/f1/current/{gp_round}/qualifying.json')
 

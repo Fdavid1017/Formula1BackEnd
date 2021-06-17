@@ -9,6 +9,7 @@ from resources.constructor_standings import ConstructorStandings
 from resources.constructors import Constructors
 from resources.driver_standings import DriverStandings
 from resources.drivers import Drivers
+from resources.gp_circuit import GpCircuit
 from resources.laps import Laps
 from resources.next_tweets import NextTweets
 from resources.practice import Practice
@@ -38,6 +39,7 @@ api.add_resource(Constructors, '/api/constructors', endpoint="constructors")
 api.add_resource(DriverStandings, '/api/driverStandings', endpoint="driver_standings")
 api.add_resource(ConstructorStandings, '/api/constructorStandings', endpoint="constructor_standings")
 api.add_resource(Circuit, '/api/circuit/<string:circuit_id>', endpoint="circuit")
+api.add_resource(GpCircuit, '/api/gpCircuit/<int:gp_round>', endpoint="circuit_for_gp")
 api.add_resource(Laps, '/api/laps/<string:gp_name>/<string:session_type>', endpoint="laps")
 api.add_resource(Tweets, '/api/tweets', endpoint="tweets")
 api.add_resource(NextTweets, '/api/next_tweets', endpoint="next_tweets")
