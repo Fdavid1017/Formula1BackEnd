@@ -4,8 +4,9 @@ from flask import jsonify, Response
 from flask_restful import Resource, reqparse
 
 from exceptions.api_request_exception import ApiRequestException
-from helpers.ergast_api_helper import get_all_team
-from helpers.functions import get_all_driver, sort_by_constructor_standing
+from helpers.constructors_helper import get_all_constructor
+from helpers.drivers_helper import get_all_driver
+from helpers.functions import sort_by_constructor_standing
 
 
 class Drivers(Resource):
@@ -29,7 +30,7 @@ class Drivers(Resource):
         if order_by == 'name':
             drivers.sort(key=lambda d: d.given_name)
         elif order_by == 'constructor':
-            drivers = sort_by_constructor_standing(drivers, get_all_team())
+            drivers = sort_by_constructor_standing(drivers, get_all_constructor())
         else:
             drivers.sort(key=lambda d: d.constructor.name)
 

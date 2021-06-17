@@ -16,10 +16,10 @@ from resources.qualifying import Qualifying
 from resources.race import Race
 from resources.schedule import Schedule
 from resources.telemetry import Telemetry
-# Fast F1 setup
 from resources.tweets import Tweets
 from resources.weather import Weather
 
+# Fast F1 setup
 plotting.setup_mpl()
 ff1.Cache.enable_cache('cache')
 

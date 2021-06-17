@@ -4,7 +4,7 @@ import requests
 from flask import jsonify
 
 from classes.circuit import Circuit
-from classes.constructor_standing import ConstructorStanding
+from classes.color_scheme import ColorScheme
 from classes.fastest_lap import FastestLap
 from classes.qualifying_result import QualifyingResult
 from classes.race import Race
@@ -14,7 +14,8 @@ from exceptions.api_request_exception import ApiRequestException
 from exceptions.no_circuit_exception import NoCircuitException
 from exceptions.no_round_exception import NoRoundException
 from helpers.circuit import circuit_helper
-from helpers.functions import *
+from helpers.constructors_helper import get_constructor_from_ergast_data
+from helpers.drivers_helper import get_driver_from_ergast_data
 
 
 def get_schedule():
@@ -174,81 +175,3 @@ def get_race_results(gp_round):
         race_results.append(race_res)
 
     return SessionResultsGroup(date_time, race_results).serialize()
-
-
-def get_all_driver():
-    response = requests.get('http://ergast.com/api/f1/current/driverStandings.json')
-
-    if response.status_code != 200:
-        raise ApiRequestException(f'Api responded with status code {response.status_code}')
-
-    result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
-    drivers = []
-    for i in range(len(result)):
-        d = result[i]
-        constructor = get_constructor_from_ergast_data(d['Constructors'][0])
-        driver = get_driver_from_ergast_data(d['Driver'], constructor)
-
-        drivers.append(driver)
-
-    return drivers
-
-
-def get_drivers_standing():
-    response = requests.get('http://ergast.com/api/f1/current/driverStandings.json')
-    if response.status_code != 200:
-        return jsonify({
-            'error': f'api response code {response.status_code}'
-        })
-
-    result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
-    drivers = []
-    for i in range(len(result)):
-        d = result[i]
-        constructor = get_constructor_from_ergast_data(d['Constructors'][0])
-        driver = get_driver_from_ergast_data(d['Driver'], constructor)
-        position = d['position']
-        points = d['points']
-        wins = d['wins']
-
-        driver_standing = DriverStanding(position, points, wins, driver)
-        drivers.append(driver_standing)
-
-    return drivers
-
-
-def get_all_team():
-    response = requests.get('http://ergast.com/api/f1/current/constructorStandings.json')
-    if response.status_code != 200:
-        raise ApiRequestException(f'Api responded with status code {response.status_code}')
-
-    result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
-    teams = []
-    for i in range(len(result)):
-        t = result[i]
-        constructor = get_constructor_from_ergast_data(t['Constructor'])
-
-        teams.append(constructor)
-
-    return teams
-
-
-def get_teams_standing():
-    response = requests.get('http://ergast.com/api/f1/current/constructorStandings.json')
-    if response.status_code != 200:
-        raise ApiRequestException(f'Api responded with status code {response.status_code}')
-
-    result = response.json()['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
-    teams = []
-    for i in range(len(result)):
-        t = result[i]
-        constructor = get_constructor_from_ergast_data(t['Constructor'])
-        position = t['position']
-        points = t['points']
-        wins = t['wins']
-
-        constructor_standing = ConstructorStanding(position, points, wins, constructor)
-
-        teams.append(constructor_standing)
-
-    return teams

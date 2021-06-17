@@ -4,7 +4,7 @@ from flask import jsonify, Response
 from flask_restful import Resource, reqparse
 
 from exceptions.api_request_exception import ApiRequestException
-from helpers.ergast_api_helper import get_all_team
+from helpers.constructors_helper import get_all_constructor
 
 
 class Constructors(Resource):
@@ -17,7 +17,7 @@ class Constructors(Resource):
         order_by = args['order']
 
         try:
-            teams = get_all_team()
+            teams = get_all_constructor()
         except ApiRequestException as e:
             print(e)
             response = Response(

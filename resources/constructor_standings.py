@@ -4,13 +4,13 @@ from flask import jsonify, Response
 from flask_restful import Resource
 
 from exceptions.api_request_exception import ApiRequestException
-from helpers.ergast_api_helper import get_teams_standing
+from helpers.constructors_helper import get_constructors_standing
 
 
 class ConstructorStandings(Resource):
     def get(self):
         try:
-            teams = get_teams_standing()
+            teams = get_constructors_standing()
         except ApiRequestException as e:
             print(e)
             response = Response(

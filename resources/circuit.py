@@ -4,7 +4,7 @@ from flask import jsonify, Response
 from flask_restful import Resource
 
 from exceptions.no_circuit_exception import NoCircuitException
-from helpers.functions import get_circuit
+from helpers.ergast_api_helper import get_circuit
 
 
 class Circuit(Resource):
