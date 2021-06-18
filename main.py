@@ -4,6 +4,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
 
+from helpers.ergast_api_helper import get_schedule_for_weekend
 from resources.circuit import Circuit
 from resources.constructor_standings import ConstructorStandings
 from resources.constructors import Constructors
@@ -21,6 +22,8 @@ from resources.tweets import Tweets
 from resources.weather import Weather
 
 # Fast F1 setup
+from resources.weekend_schedule import WeekendSchedule
+
 plotting.setup_mpl()
 ff1.Cache.enable_cache('cache')
 
@@ -30,7 +33,8 @@ app.config['JSON_AS_ASCII'] = False
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 api = Api(app)
 
-api.add_resource(Schedule, '/api/schedules', endpoint="schedulea")
+api.add_resource(Schedule, '/api/schedules', endpoint="schedule")
+api.add_resource(WeekendSchedule, '/api/weekendSchedules/<int:gp_round>', endpoint="weekend_schedule")
 api.add_resource(Qualifying, '/api/qualifying/<int:gp_round>', endpoint="qualifying_by_round")
 api.add_resource(Race, '/api/races/<int:gp_round>', endpoint="races_by_round")
 api.add_resource(Practice, '/api/practices/<string:gp_name>/<int:fp_number>', endpoint="practices_by_name_and_number")
@@ -48,4 +52,5 @@ api.add_resource(Telemetry, '/api/telemetry/<string:gp_name>/<string:session_typ
 api.add_resource(Weather, '/api/weather/<string:gp_name>/<string:session_type>', endpoint="weather")
 
 if __name__ == '__main__':
+    get_schedule_for_weekend(6)
     app.run(debug=True)

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 from flask import jsonify
@@ -10,6 +10,7 @@ from classes.qualifying_result import QualifyingResult
 from classes.race import Race
 from classes.session_result import SessionResult
 from classes.session_results_group import SessionResultsGroup
+from classes.weekend_schedule import WeekendSchedule
 from exceptions.api_request_exception import ApiRequestException
 from exceptions.no_circuit_exception import NoCircuitException
 from exceptions.no_round_exception import NoRoundException
@@ -183,9 +184,23 @@ def get_race_results(gp_round):
             lap = r['FastestLap']['lap']
             time = r['FastestLap']['Time']['time']
             avg_speed = r['FastestLap']['AverageSpeed']
-            fastest_lap = FastestLap(rank, lap, time, avg_speed)
+            fastest_lap = FastestLap(lap, time, avg_speed)
 
         race_res = SessionResult(position, driver, status, points, fastest_lap)
         race_results.append(race_res)
 
     return SessionResultsGroup(date_time, race_results).serialize()
+
+
+def get_schedule_for_weekend(gp_round):
+    schedule = get_schedule()
+    gp = [x for x in schedule if int(x['race_round']) == gp_round]
+
+    if len(gp) != 1:
+        raise NoRoundException(f'No round found with {gp_round}')
+
+    date = gp[0]['date_time']
+    weekend = WeekendSchedule(date - timedelta(days=2), date - timedelta(days=2), date - timedelta(days=1),
+                              date - timedelta(days=1), date)
+
+    return weekend
