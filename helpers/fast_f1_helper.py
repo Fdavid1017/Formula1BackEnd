@@ -5,26 +5,32 @@ import fastf1 as ff1
 from classes.fastest_lap import FastestLap
 from classes.free_practice_result import FreePracticeResult
 from classes.session_results_group import SessionResultsGroup
-from helpers.drivers_helper import get_driver_by_code
+from helpers.drivers_helper import get_all_driver
 
 
 def get_fastest_laps_from_session(session_name, session_type):
     session = ff1.get_session(2021, session_name, session_type)
-    session.load_laps()
-    sorted_laps = session.laps.sort_values(by='LapTime')
-    unique = sorted_laps.drop_duplicates(subset=['DriverNumber'])
+    laps = session.load_laps()
+    drivers = get_all_driver()
 
-    session_results = []
-    for index, row in unique.iterrows():
-        driver = get_driver_by_code(row['Driver'])
-        fastest_lap = FastestLap(index + 1, row['LapNumber'], str(row['LapTime']), '')
-        fp_res = FreePracticeResult(index + 1, driver, fastest_lap)
+    fastest_laps = []
 
-        session_results.append(fp_res)
+    for i in range(len(drivers)):
+        driver = drivers[i]
+        try:
+            fl = laps.pick_driver(driver.code).pick_fastest()
+            fastest_lap = FastestLap(int(fl['LapNumber']), str(fl['LapTime']), '')
+            fp_res = FreePracticeResult(int(i + 1), driver, fastest_lap)
 
-    session_result_group = SessionResultsGroup(datetime.now(), session_results)
+            fastest_laps.append(fp_res)
+        except:
+            print(driver + ' error getting laps (possibly no lap data)')
 
-    return session_result_group
+    fastest_laps.sort(key=lambda x: x.fastest_lap.time)
+    for index in range(len(fastest_laps)):
+        fastest_laps[index].position = index + 1
+
+    return SessionResultsGroup(datetime.now(), fastest_laps)
 
 
 def get_laps(session_name, session_type):

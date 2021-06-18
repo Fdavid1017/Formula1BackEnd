@@ -3,6 +3,7 @@ from flask import jsonify
 
 from classes.driver import Driver
 from classes.driver_standing import DriverStanding
+from exceptions.api_request_exception import ApiRequestException
 from helpers.constructors_helper import get_constructor_from_ergast_data
 
 
