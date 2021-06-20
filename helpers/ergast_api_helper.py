@@ -20,7 +20,7 @@ from helpers.drivers_helper import get_driver_from_ergast_data
 
 
 def get_schedule():
-    response = requests.get('http://ergast.com/api/f1/current.json')
+    response = requests.get('https://ergast.com/api/f1/current.json')
 
     if response.status_code != 200:
         raise ApiRequestException(f'Api responded with status code {response.status_code}')
@@ -67,7 +67,7 @@ def get_schedule():
 
 
 def get_circuit(circuit_id):
-    response = requests.get(f'http://ergast.com/api/f1/circuits/{circuit_id}.json')
+    response = requests.get(f'https://ergast.com/api/f1/circuits/{circuit_id}.json')
 
     if response.status_code != 200:
         raise ApiRequestException(f'Api responded with status code {response.status_code}')
@@ -84,6 +84,8 @@ def get_circuit(circuit_id):
     circuit_name = c['circuitName']
     city = c['Location']['locality']
     country = c['Location']['country']
+    long = c['Location']['long']
+    lat = c['Location']['lat']
     image_location = current_c['image_location']
     first_gp = current_c['first_gp']
     number_of_laps = current_c['number_of_laps']
@@ -93,13 +95,13 @@ def get_circuit(circuit_id):
     color_scheme = ColorScheme(current_c['primary_color'], current_c['secondary'], current_c['tertiary'])
 
     circuit = Circuit(circuit_id, circuit_name, city, country, image_location, first_gp, number_of_laps, length,
-                      race_distance, gjson_map, color_scheme)
+                      race_distance, gjson_map, color_scheme, long, lat)
 
     return circuit
 
 
 def get_circuit_for_gp(gp_round):
-    response = requests.get(f'http://ergast.com/api/f1/current/{gp_round}/circuits.json')
+    response = requests.get(f'https://ergast.com/api/f1/current/{gp_round}/circuits.json')
 
     if response.status_code != 200:
         raise ApiRequestException(f'Api responded with status code {response.status_code}')
@@ -113,7 +115,7 @@ def get_circuit_for_gp(gp_round):
 
 
 def get_qualifying_results(gp_round):
-    response = requests.get(f'http://ergast.com/api/f1/current/{gp_round}/qualifying.json')
+    response = requests.get(f'https://ergast.com/api/f1/current/{gp_round}/qualifying.json')
 
     if response.status_code != 200:
         raise ApiRequestException(f'Api responded with status code {response.status_code}')
@@ -142,9 +144,9 @@ def get_qualifying_results(gp_round):
         if 'Q1' in r:
             qualifying_1 = r['Q1']
         if 'Q2' in r:
-            qualifying_1 = r['Q2']
+            qualifying_2 = r['Q2']
         if 'Q3' in r:
-            qualifying_1 = r['Q3']
+            qualifying_3 = r['Q3']
 
         quali_res = QualifyingResult(position, driver, qualifying_1, qualifying_2, qualifying_3)
         quali_results.append(quali_res)
@@ -153,7 +155,7 @@ def get_qualifying_results(gp_round):
 
 
 def get_race_results(gp_round):
-    response = requests.get(f'http://ergast.com/api/f1/current/{gp_round}/results.json')
+    response = requests.get(f'https://ergast.com/api/f1/current/{gp_round}/results.json')
 
     if response.status_code != 200:
         raise ApiRequestException(f'Api responded with status code {response.status_code}')

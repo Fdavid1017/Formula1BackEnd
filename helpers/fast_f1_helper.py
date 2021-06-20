@@ -24,7 +24,7 @@ def get_fastest_laps_from_session(session_name, session_type):
 
             fastest_laps.append(fp_res)
         except:
-            print(driver + ' error getting laps (possibly no lap data)')
+            print(driver.code + ' error getting laps (possibly no lap data)')
 
     fastest_laps.sort(key=lambda x: x.fastest_lap.time)
     for index in range(len(fastest_laps)):
