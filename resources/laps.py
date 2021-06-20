@@ -1,6 +1,6 @@
 import json
 
-from flask import Response
+from flask import Response, make_response
 from flask_restful import Resource, reqparse
 
 from helpers.fast_f1_helper import get_laps
@@ -37,8 +37,11 @@ class Laps(Resource):
         print(f'Returning {len(laps.index)} row of telemetry data for the {gp_name} GP')
 
         if return_format == 'html':
-            return laps.to_html()
+            headers = {'Content-Type': 'text/html'}
+            return make_response(laps.to_html(), 200, headers)
         elif return_format == 'csv':
-            return laps.to_csv()
+            headers = {'Content-Type': 'text/csv'}
+            return make_response(laps.to_csv(), 200, headers)
         else:
-            return laps.to_json()
+            headers = {'Content-Type': 'application/json'}
+            return make_response(laps.to_json(), 200, headers)

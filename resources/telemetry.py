@@ -1,7 +1,7 @@
 import json
 
 from fastf1.api import SessionNotAvailableError
-from flask import Response
+from flask import Response, make_response
 from flask_restful import Resource, reqparse
 
 from helpers.fast_f1_helper import get_telemetry
@@ -68,11 +68,14 @@ class Telemetry(Resource):
         print(f'Returning {len(telemetry.index)} row of telemetry data for {driver}')
 
         if return_format == 'html':
-            return telemetry.to_html()
+            headers = {'Content-Type': 'text/html'}
+            return make_response(telemetry.to_html(), 200, headers)
         elif return_format == 'csv':
             # USE CSV FOR SMALLEST SIZE AND FOR FASTER PROCESSING
-            return telemetry.to_csv()
+            headers = {'Content-Type': 'text/csv'}
+            return make_response(telemetry.to_csv(), 200, headers)
         elif return_format == 'string':
             return telemetry.to_string()
         else:
-            return telemetry.to_json()
+            headers = {'Content-Type': 'application/json'}
+            return make_response(telemetry.to_json(), 200, headers)

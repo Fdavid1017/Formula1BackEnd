@@ -44,9 +44,25 @@ def get_telemetry(session_name, session_type, driver):
 
     race = ff1.get_session(2021, session_name, session_type)
     laps = race.load_laps(with_telemetry=True)
-    fastest = laps.pick_driver(driver)
+    driver_laps = laps.pick_driver(driver)
 
-    return fastest.get_telemetry()
+    return driver_laps.get_telemetry()
+
+
+def get_car_data(session_name, session_type, driver):
+    print(f'SessionName: {session_name}\nSessionType: {session_type}\nDriver: {driver}')
+
+    race = ff1.get_session(2021, session_name, session_type)
+    laps = race.load_laps(with_telemetry=True)
+    driver_laps = laps.pick_driver(driver)
+
+    telemetry = []
+    for i in range(len(driver_laps.index)):
+        l = driver_laps.iloc[i]
+        tel = l.get_car_data()
+        telemetry.append(tel)
+
+    return telemetry
 
 
 def get_weather(session_name, session_type):

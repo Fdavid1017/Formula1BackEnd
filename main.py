@@ -5,6 +5,7 @@ from flask_cors import CORS
 from flask_restful import Api
 
 from helpers.ergast_api_helper import get_schedule_for_weekend
+from resources.car_data import CarData
 from resources.circuit import Circuit
 from resources.circuit_geojson import CircuitGeoJson
 from resources.constructor_standings import ConstructorStandings
@@ -51,6 +52,8 @@ api.add_resource(Tweets, '/api/tweets', endpoint="tweets")
 api.add_resource(NextTweets, '/api/next_tweets', endpoint="next_tweets")
 api.add_resource(Telemetry, '/api/telemetry/<string:gp_name>/<string:session_type>/<string:driver>',
                  endpoint="telemetry")
+api.add_resource(CarData, '/api/carData/<string:gp_name>/<string:session_type>/<string:driver>',
+                 endpoint="car_data")
 api.add_resource(Weather, '/api/weather/<string:gp_name>/<string:session_type>', endpoint="weather")
 
 if __name__ == '__main__':
