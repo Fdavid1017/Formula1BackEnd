@@ -6,6 +6,7 @@ from flask_restful import Api
 
 from helpers.ergast_api_helper import get_schedule_for_weekend
 from resources.circuit import Circuit
+from resources.circuit_geojson import CircuitGeoJson
 from resources.constructor_standings import ConstructorStandings
 from resources.constructors import Constructors
 from resources.driver_standings import DriverStandings
@@ -44,6 +45,7 @@ api.add_resource(DriverStandings, '/api/driverStandings', endpoint="driver_stand
 api.add_resource(ConstructorStandings, '/api/constructorStandings', endpoint="constructor_standings")
 api.add_resource(Circuit, '/api/circuit/<string:circuit_id>', endpoint="circuit")
 api.add_resource(GpCircuit, '/api/gpCircuit/<int:gp_round>', endpoint="circuit_for_gp")
+api.add_resource(CircuitGeoJson, '/api/circuitGeojson/<string:geojson_map>', endpoint="geojson_for_circuit")
 api.add_resource(Laps, '/api/laps/<string:gp_name>/<string:session_type>', endpoint="laps")
 api.add_resource(Tweets, '/api/tweets', endpoint="tweets")
 api.add_resource(NextTweets, '/api/next_tweets', endpoint="next_tweets")

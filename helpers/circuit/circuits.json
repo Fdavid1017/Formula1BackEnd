@@ -6,7 +6,7 @@
     "number_of_laps": 57,
     "length": 5.412,
     "race_distance": 308.238,
-    "gjson_map": "gjson_data/bh-2002.geojson",
+    "gjson_map": "bh-2002.geojson",
     "primary_color": "#ce1127",
     "secondary": "#a50e1f",
     "tertiary": "#ffffff"
@@ -18,7 +18,7 @@
     "number_of_laps": 63,
     "length": 4.909,
     "race_distance": 309.049,
-    "gjson_map": "gjson_data/it-1953.geojson",
+    "gjson_map": "it-1953.geojson",
     "primary_color": "#009247",
     "secondary": "#ffffff",
     "tertiary": "#cf2b36"
@@ -30,7 +30,7 @@
     "number_of_laps": 66,
     "length": 4.653,
     "race_distance": 306.826,
-    "gjson_map": "gjson_data/pt-2008.geojson",
+    "gjson_map": "pt-2008.geojson",
     "primary_color": "#006401",
     "secondary": "#fe0002",
     "tertiary": "#fffc0d"
@@ -42,7 +42,7 @@
     "number_of_laps": 66,
     "length": 4.675,
     "race_distance": 308.424,
-    "gjson_map": "gjson_data/es-1991.geojson",
+    "gjson_map": "es-1991.geojson",
     "primary_color": "#c20f15",
     "secondary": "#fec400",
     "tertiary": "#9e0918"
@@ -54,7 +54,7 @@
     "number_of_laps": 66,
     "length": 4.675,
     "race_distance": 308.424,
-    "gjson_map": "gjson_data/mc-1929.geojson",
+    "gjson_map": "mc-1929.geojson",
     "primary_color": "#ce1127",
     "secondary": "#ffffff",
     "tertiary": "#a50e1f"
@@ -66,7 +66,7 @@
     "number_of_laps": 51,
     "length": 6.003,
     "race_distance": 306.049,
-    "gjson_map": "gjson_data/az-2016.geojson",
+    "gjson_map": "az-2016.geojson",
     "primary_color": "#0097c2",
     "secondary": "#e00034",
     "tertiary": "#00ae66"
@@ -78,7 +78,7 @@
     "number_of_laps": 51,
     "length": 6.003,
     "race_distance": 306.049,
-    "gjson_map": "gjson_data/fr-1969.geojson",
+    "gjson_map": "fr-1969.geojson",
     "primary_color": "#002496",
     "secondary": "#ffffff",
     "tertiary": "#ed2839"
@@ -90,7 +90,7 @@
     "number_of_laps": 71,
     "length": 4.318,
     "race_distance": 306.452,
-    "gjson_map": "gjson_data/at-1969.geojson",
+    "gjson_map": "at-1969.geojson",
     "primary_color": "#ed2839",
     "secondary": "#ffffff",
     "tertiary": "#be202e"
@@ -102,7 +102,7 @@
     "number_of_laps": 52,
     "length": 5.891,
     "race_distance": 306.198,
-    "gjson_map": "gjson_data/gb-1948.geojson",
+    "gjson_map": "gb-1948.geojson",
     "primary_color": "#d0142c",
     "secondary": "#042373",
     "tertiary": "#ffffff"
@@ -114,7 +114,7 @@
     "number_of_laps": 70,
     "length": 4.381,
     "race_distance": 306.63,
-    "gjson_map": "gjson_data/hu-1986.geojson",
+    "gjson_map": "hu-1986.geojson",
     "primary_color": "#ce1127",
     "secondary": "#ffffff",
     "tertiary": "#008651"
@@ -126,7 +126,7 @@
     "number_of_laps": 44,
     "length": 7.004,
     "race_distance": 308.052,
-    "gjson_map": "gjson_data/be-1925.geojson",
+    "gjson_map": "be-1925.geojson",
     "primary_color": "#ed2839",
     "secondary": "#fae043",
     "tertiary": "#000000"
@@ -138,7 +138,7 @@
     "number_of_laps": 72,
     "length": 4.259,
     "race_distance": 306.648,
-    "gjson_map": "gjson_data/nl-1948.geojson",
+    "gjson_map": "nl-1948.geojson",
     "primary_color": "#ae1c27",
     "secondary": "#ffffff",
     "tertiary": "#21468c"
@@ -150,7 +150,7 @@
     "number_of_laps": 53,
     "length": 5.793,
     "race_distance": 306.72,
-    "gjson_map": "gjson_data/it-1922.geojson",
+    "gjson_map": "it-1922.geojson",
     "primary_color": "#009247",
     "secondary": "#cf2a38",
     "tertiary": "#ffffff"
@@ -162,7 +162,7 @@
     "number_of_laps": 53,
     "length": 5.848,
     "race_distance": 309.745,
-    "gjson_map": "gjson_data/ru-2014.geojson",
+    "gjson_map": "ru-2014.geojson",
     "primary_color": "#d52b1e",
     "secondary": "#0038a5",
     "tertiary": "#ffffff"
@@ -174,7 +174,7 @@
     "number_of_laps": 61,
     "length": 5.063,
     "race_distance": 308.706,
-    "gjson_map": "gjson_data/sg-2008.geojson",
+    "gjson_map": "sg-2008.geojson",
     "primary_color": "#d52b1e",
     "secondary": "#0038a5",
     "tertiary": "#ffffff"
@@ -186,7 +186,7 @@
     "number_of_laps": 53,
     "length": 5.807,
     "race_distance": 307.471,
-    "gjson_map": "gjson_data/jp-1962.geojson",
+    "gjson_map": "jp-1962.geojson",
     "primary_color": "#bb002b",
     "secondary": "#ffffff",
     "tertiary": "#960022"
@@ -198,7 +198,7 @@
     "number_of_laps": 56,
     "length": 5.513,
     "race_distance": 308.405,
-    "gjson_map": "gjson_data/us-2012.geojson",
+    "gjson_map": "us-2012.geojson",
     "primary_color": "#b90b30",
     "secondary": "#002665",
     "tertiary": "#ffffff"
@@ -210,7 +210,7 @@
     "number_of_laps": 71,
     "length": 4.304,
     "race_distance": 305.354,
-    "gjson_map": "gjson_data/mx-1962.geojson",
+    "gjson_map": "mx-1962.geojson",
     "primary_color": "#006847",
     "secondary": "#ce1127",
     "tertiary": "#ffffff"
@@ -222,7 +222,7 @@
     "number_of_laps": 71,
     "length": 4.309,
     "race_distance": 305.909,
-    "gjson_map": "gjson_data/br-1940.geojson",
+    "gjson_map": "br-1940.geojson",
     "primary_color": "#009c3b",
     "secondary": "#fddf01",
     "tertiary": "#002776"
@@ -234,7 +234,7 @@
     "number_of_laps": 71,
     "length": 4.309,
     "race_distance": 305.909,
-    "gjson_map": "gjson_data/br-1940.geojson",
+    "gjson_map": "br-1940.geojson",
     "primary_color": "#009c3b",
     "secondary": "#fddf01",
     "tertiary": "#002776"
@@ -246,7 +246,7 @@
     "number_of_laps": 58,
     "length": 5.303,
     "race_distance": 307.574,
-    "gjson_map": "gjson_data/au-1953.geojson",
+    "gjson_map": "au-1953.geojson",
     "primary_color": "#01008c",
     "secondary": "#ef0707",
     "tertiary": "#ffffff"
@@ -258,7 +258,7 @@
     "number_of_laps": 50,
     "length": 6.175,
     "race_distance": 308.75,
-    "gjson_map": "gjson_data/sa-2021.geojson",
+    "gjson_map": "sa-2021.geojson",
     "primary_color": "#006c35",
     "secondary": "#00562a",
     "tertiary": "#ffffff"
@@ -270,7 +270,7 @@
     "number_of_laps": 55,
     "length": 5.554,
     "race_distance": 305.355,
-    "gjson_map": "gjson_data/ae-2009.geojson",
+    "gjson_map": "ae-2009.geojson",
     "primary_color": "#ce1127",
     "secondary": "#009e49",
     "tertiary": "#000000"
