@@ -9,11 +9,14 @@ class Circuit:
     length = None
     race_distance = None
     gjson_map = ''
-    color_scheme = None
+    color_scheme = None,
+    long = None,
+    lat = None
 
     def __init__(self, circuit_id='', name='', city='', country='', image_location='', first_gp='', number_of_laps='',
-                 length='', race_distance='',
-                 gjson_map='', color_scheme=''):
+                 length='', race_distance='', gjson_map='', color_scheme='', long='', lat=''):
+        self.lat = lat
+        self.long = long
         self.color_scheme = color_scheme
         self.gjson_map = gjson_map
         self.race_distance = race_distance
@@ -28,6 +31,8 @@ class Circuit:
 
     def serialize(self):
         return {
+            'lat': self.lat,
+            'long': self.long,
             'color_scheme': self.color_scheme.serialize(),
             'gjson_map': self.gjson_map,
             'race_distance': self.race_distance,
