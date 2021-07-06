@@ -5,7 +5,11 @@ from flask_cors import CORS
 from flask_restful import Api
 
 from helpers.ergast_api_helper import get_schedule_for_weekend
+from resources import cache
+from resources.all_car_data import AllCarData
+from resources.all_car_position import AllCarPosition
 from resources.car_data import CarData
+from resources.car_position import CarPosition
 from resources.circuit import Circuit
 from resources.circuit_geojson import CircuitGeoJson
 from resources.constructor_standings import ConstructorStandings
@@ -14,6 +18,7 @@ from resources.driver_standings import DriverStandings
 from resources.drivers import Drivers
 from resources.gp_circuit import GpCircuit
 from resources.laps import Laps
+from resources.live_data_test import LiveDataTest
 from resources.next_tweets import NextTweets
 from resources.practice import Practice
 from resources.qualifying import Qualifying
@@ -34,6 +39,7 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 api = Api(app)
+cache.init_app(app)
 
 api.add_resource(Schedule, '/api/schedules', endpoint="schedule")
 api.add_resource(WeekendSchedule, '/api/weekendSchedules/<int:gp_round>', endpoint="weekend_schedule")
@@ -54,8 +60,14 @@ api.add_resource(Telemetry, '/api/telemetry/<string:gp_name>/<string:session_typ
                  endpoint="telemetry")
 api.add_resource(CarData, '/api/carData/<string:gp_name>/<string:session_type>/<string:driver>',
                  endpoint="car_data")
+api.add_resource(CarPosition, '/api/carPosition/<string:gp_name>/<string:session_type>/<string:driver>',
+                 endpoint="car_position_data")
 api.add_resource(Weather, '/api/weather/<string:gp_name>/<string:session_type>', endpoint="weather")
+api.add_resource(AllCarData, '/api/allCarData/<string:gp_name>/<string:session_type>', endpoint="all_car_data")
+api.add_resource(AllCarPosition, '/api/allCarPosition/<string:gp_name>/<string:session_type>',
+                 endpoint="all_car_position")
+api.add_resource(LiveDataTest, '/api/livedata', '/api/livedata/<int:amount>', endpoint="live_data_test")
 
 if __name__ == '__main__':
     get_schedule_for_weekend(6)
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)

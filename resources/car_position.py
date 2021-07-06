@@ -1,21 +1,21 @@
 import json
 
 from fastf1.api import SessionNotAvailableError
-from flask import make_response, Response, jsonify
-from flask_restful import Resource, reqparse
+from flask import Response, make_response
+from flask_restful import Resource
 
-from helpers.fast_f1_helper import get_car_data
+from helpers.fast_f1_helper import get_car_position
 from . import cache
 
 
-class CarData(Resource):
+class CarPosition(Resource):
     @cache.cached(timeout=600, query_string=True)
     def get(self, gp_name, session_type, driver):
         session_type = session_type.upper()
         driver = driver.upper()
 
         try:
-            telemetry = get_car_data(gp_name, session_type, driver)
+            position_data = get_car_position(gp_name, session_type, driver)
         except SessionNotAvailableError as e:
             print(e)
             response = Response(
@@ -35,19 +35,11 @@ class CarData(Resource):
                 status=500, mimetype='application/json')
             return response
 
-        telemetry = self.clean_up_data(telemetry)
-        print(f'Returning {len(telemetry)} laps of data for {driver}')
+        # position_data = self.clean_up_data(position_data)
+        print(f'Returning {len(position_data)} laps of position data for {driver}')
 
         headers = {'Content-Type': 'application/json'}
-        return make_response({'carData': self.telemetry_to_json(telemetry)}, 200, headers)
-
-    def clean_up_data(self, telemetry):
-        for i in range(len(telemetry)):
-            telemetry[i] = telemetry[i].drop(
-                columns=['Date', 'DriverAhead', 'DistanceToDriverAhead', 'Source', 'Distance', 'Status',
-                         'RelativeDistance'], errors='ignore')
-
-        return telemetry
+        return make_response({'carData': self.telemetry_to_json(position_data)}, 200, headers)
 
     def telemetry_to_json(self, telemetry):
         jsonData = []
@@ -55,23 +47,14 @@ class CarData(Resource):
             tel = telemetry[i]
             data = {}
 
-            if 'RPM' in tel.columns:
-                data["RPM"] = tel['RPM'].tolist()
+            if 'Date' in tel.columns:
+                data["Date"] = tel['Date'].tolist()
 
-            if 'Speed' in tel.columns:
-                data["Speed"] = tel['Speed'].tolist()
+            if 'X' in tel.columns:
+                data["X"] = tel['X'].tolist()
 
-            if 'nGear' in tel.columns:
-                data["nGear"] = tel['nGear'].tolist()
-
-            if 'Throttle' in tel.columns:
-                data["Throttle"] = tel['Throttle'].tolist()
-
-            if 'Brake' in tel.columns:
-                data["Brake"] = tel['Brake'].tolist()
-
-            if 'DRS' in tel.columns:
-                data["DRS"] = tel['DRS'].tolist()
+            if 'Y' in tel.columns:
+                data["Y"] = tel['Y'].tolist()
 
             if 'Time' in tel.columns:
                 data["Time"] = tel['Time'].tolist()

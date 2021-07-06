@@ -1,45 +1,42 @@
 import json
 
-from fastf1.api import SessionNotAvailableError
-from flask import make_response, Response, jsonify
+from flask import jsonify, make_response
 from flask_restful import Resource, reqparse
-
-from helpers.fast_f1_helper import get_car_data
 from . import cache
 
+from helpers.drivers_helper import get_all_driver
+from helpers.fast_f1_helper import get_car_data
 
-class CarData(Resource):
+
+class AllCarData(Resource):
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('from', type=int, default=0)
+        self.reqparse.add_argument('till', type=int, default=0)
+
     @cache.cached(timeout=600, query_string=True)
-    def get(self, gp_name, session_type, driver):
+    def get(self, gp_name, session_type):
+        args = self.reqparse.parse_args()
+        from_lap = args['from']
+        till_lap = args['till']
+
         session_type = session_type.upper()
-        driver = driver.upper()
+        drivers = get_all_driver()
 
-        try:
-            telemetry = get_car_data(gp_name, session_type, driver)
-        except SessionNotAvailableError as e:
-            print(e)
-            response = Response(
-                response=json.dumps({'error': str(e)}),
-                status=500, mimetype='application/json')
-            return response
-        except AttributeError as e:
-            print(e)
-            response = Response(
-                response=json.dumps({'error': str(e)}),
-                status=500, mimetype='application/json')
-            return response
-        except ValueError as e:
-            print(e)
-            response = Response(
-                response=json.dumps({'error': str(e)}),
-                status=500, mimetype='application/json')
-            return response
+        driversLaps = {}
+        for i in range(len(drivers)):
+            driver = drivers[i]
+            print(f'Getting data for {driver.code} in {gp_name} {session_type}')
+            laps_data = get_car_data(gp_name, session_type, driver.code)
 
-        telemetry = self.clean_up_data(telemetry)
-        print(f'Returning {len(telemetry)} laps of data for {driver}')
+            if till_lap > 0 and from_lap < till_lap:
+                laps_data = laps_data[from_lap:till_lap + 1]
+
+            laps_data = self.telemetry_to_json(laps_data)
+            driversLaps[driver.code] = laps_data
 
         headers = {'Content-Type': 'application/json'}
-        return make_response({'carData': self.telemetry_to_json(telemetry)}, 200, headers)
+        return make_response(json.dumps({'carsData': driversLaps}, separators=(',', ':')), 200, headers)
 
     def clean_up_data(self, telemetry):
         for i in range(len(telemetry)):

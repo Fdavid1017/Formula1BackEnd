@@ -34,14 +34,14 @@ class Laps(Resource):
                      'Sector3SessionTime',
                      'FreshTyre', 'LapStartTime', 'IsAccurate'])
 
-        print(f'Returning {len(laps.index)} row of telemetry data for the {gp_name} GP')
+        print(f'Returning {len(laps.index)} row of lap data for the {gp_name} GP')
 
         if return_format == 'html':
             headers = {'Content-Type': 'text/html'}
             return make_response(laps.to_html(), 200, headers)
         elif return_format == 'csv':
-            headers = {'Content-Type': 'text/csv'}
+            headers = {}
             return make_response(laps.to_csv(), 200, headers)
         else:
             headers = {'Content-Type': 'application/json'}
-            return make_response(laps.to_json(), 200, headers)
+            return make_response(laps.to_json(date_unit='ms'), 200, headers)
