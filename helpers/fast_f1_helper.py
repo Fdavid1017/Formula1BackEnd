@@ -49,18 +49,35 @@ def get_telemetry(session_name, session_type, driver):
     return driver_laps.get_telemetry()
 
 
-def get_car_data(session_name, session_type, driver):
+def get_car_data(session_name, session_type, driver, from_lap=-1, till_lap=-1):
     print(f'SessionName: {session_name}\nSessionType: {session_type}\nDriver: {driver}')
 
     race = ff1.get_session(2021, session_name, session_type)
     laps = race.load_laps(with_telemetry=True)
     driver_laps = laps.pick_driver(driver)
 
+    if from_lap < 0 or till_lap < 0:
+        from_lap = 0
+        till_lap = len(driver_laps.index)
+
+    if till_lap > len(driver_laps.index):
+        till_lap = len(driver_laps.index)
+
     telemetry = []
-    for i in range(len(driver_laps.index)):
+    telemetry_index = 0
+    for i in range(from_lap, till_lap):
         l = driver_laps.iloc[i]
         tel = l.get_car_data()
+        tel = tel.add_distance()
+        tel = tel.add_driver_ahead()
+        # print()
+        # for col in tel['DriverAhead']:
+        #     print(col)
         telemetry.append(tel)
+        telemetry[telemetry_index]['Compound'] = l['Compound']
+        telemetry[telemetry_index]['TyreLife'] = l['TyreLife']
+        telemetry[telemetry_index]['TrackStatus'] = l['TrackStatus']
+        telemetry_index = telemetry_index + 1
 
     return telemetry
 

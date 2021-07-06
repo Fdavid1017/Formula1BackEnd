@@ -2,6 +2,8 @@ import json
 
 from flask import jsonify, make_response
 from flask_restful import Resource, reqparse
+
+from helpers.telemetry_to_json import telemetry_to_json
 from . import cache
 
 from helpers.drivers_helper import get_all_driver
@@ -27,12 +29,9 @@ class AllCarData(Resource):
         for i in range(len(drivers)):
             driver = drivers[i]
             print(f'Getting data for {driver.code} in {gp_name} {session_type}')
-            laps_data = get_car_data(gp_name, session_type, driver.code)
+            laps_data = get_car_data(gp_name, session_type, driver.code, from_lap, till_lap)
 
-            if till_lap > 0 and from_lap < till_lap:
-                laps_data = laps_data[from_lap:till_lap + 1]
-
-            laps_data = self.telemetry_to_json(laps_data)
+            laps_data = telemetry_to_json(laps_data)
             driversLaps[driver.code] = laps_data
 
         headers = {'Content-Type': 'application/json'}
@@ -45,41 +44,3 @@ class AllCarData(Resource):
                          'RelativeDistance'], errors='ignore')
 
         return telemetry
-
-    def telemetry_to_json(self, telemetry):
-        jsonData = []
-        for i in range(len(telemetry)):
-            tel = telemetry[i]
-            data = {}
-
-            if 'RPM' in tel.columns:
-                data["RPM"] = tel['RPM'].tolist()
-
-            if 'Speed' in tel.columns:
-                data["Speed"] = tel['Speed'].tolist()
-
-            if 'nGear' in tel.columns:
-                data["nGear"] = tel['nGear'].tolist()
-
-            if 'Throttle' in tel.columns:
-                data["Throttle"] = tel['Throttle'].tolist()
-
-            if 'Brake' in tel.columns:
-                data["Brake"] = tel['Brake'].tolist()
-
-            if 'DRS' in tel.columns:
-                data["DRS"] = tel['DRS'].tolist()
-
-            if 'Time' in tel.columns:
-                data["Time"] = tel['Time'].tolist()
-                for k in range(len(data["Time"])):
-                    data["Time"][k] = str(data["Time"][k])
-
-            if 'SessionTime' in tel.columns:
-                data["SessionTime"] = tel['SessionTime'].tolist()
-                for k in range(len(data["SessionTime"])):
-                    data["SessionTime"][k] = str(data["SessionTime"][k])
-
-            jsonData.append(data)
-
-        return jsonData

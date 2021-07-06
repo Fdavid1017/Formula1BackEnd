@@ -18,7 +18,6 @@ from resources.driver_standings import DriverStandings
 from resources.drivers import Drivers
 from resources.gp_circuit import GpCircuit
 from resources.laps import Laps
-from resources.live_data_test import LiveDataTest
 from resources.next_tweets import NextTweets
 from resources.practice import Practice
 from resources.qualifying import Qualifying
@@ -66,7 +65,6 @@ api.add_resource(Weather, '/api/weather/<string:gp_name>/<string:session_type>',
 api.add_resource(AllCarData, '/api/allCarData/<string:gp_name>/<string:session_type>', endpoint="all_car_data")
 api.add_resource(AllCarPosition, '/api/allCarPosition/<string:gp_name>/<string:session_type>',
                  endpoint="all_car_position")
-api.add_resource(LiveDataTest, '/api/livedata', '/api/livedata/<int:amount>', endpoint="live_data_test")
 
 if __name__ == '__main__':
     get_schedule_for_weekend(6)

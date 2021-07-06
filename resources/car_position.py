@@ -9,7 +9,7 @@ from . import cache
 
 
 class CarPosition(Resource):
-    @cache.cached(timeout=600, query_string=True)
+    @cache.cached(timeout=18000, query_string=True)
     def get(self, gp_name, session_type, driver):
         session_type = session_type.upper()
         driver = driver.upper()
