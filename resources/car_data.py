@@ -18,18 +18,21 @@ class CarData(Resource):
         try:
             telemetry = get_car_data(gp_name, session_type, driver)
         except SessionNotAvailableError as e:
+            print('SessionNotAvailableError')
             print(e)
             response = Response(
                 response=json.dumps({'error': str(e)}),
                 status=500, mimetype='application/json')
             return response
         except AttributeError as e:
+            print('AttributeError')
             print(e)
             response = Response(
                 response=json.dumps({'error': str(e)}),
                 status=500, mimetype='application/json')
             return response
         except ValueError as e:
+            print('ValueError')
             print(e)
             response = Response(
                 response=json.dumps({'error': str(e)}),
