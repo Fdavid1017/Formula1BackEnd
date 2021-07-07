@@ -1,9 +1,12 @@
-from flask import make_response
-from flask_restful import Resource, reqparse
-from . import cache
+import time
 
+from flask import jsonify
+from flask_restful import Resource, reqparse
+
+from helpers.load_laps import LoadLaps
 from helpers.drivers_helper import get_all_driver
-from helpers.fast_f1_helper import get_car_position
+from helpers.position_to_json import position_to_json
+from resources import cache
 
 
 class AllCarPosition(Resource):
@@ -14,49 +17,45 @@ class AllCarPosition(Resource):
 
     @cache.cached(timeout=600, query_string=True)
     def get(self, gp_name, session_type):
-        args = self.reqparse.parse_args()
-        from_lap = args['from']
-        till_lap = args['till']
-
+        # args = self.reqparse.parse_args()
+        # from_lap = args['from']
+        # till_lap = args['till']
         session_type = session_type.upper()
-        drivers = get_all_driver()
 
-        driversLaps = {}
+        tic = time.perf_counter()
+
+        drivers = get_all_driver()
+        load_laps = LoadLaps()
+        laps = load_laps.load_laps_with_telemetry(gp_name, session_type)
+
+        drivers_positions_data = {}
         for i in range(len(drivers)):
             driver = drivers[i]
             print(f'Getting data for {driver.code} in {gp_name} {session_type}')
-            laps_data = get_car_position(gp_name, session_type, driver.code, from_lap, till_lap)
-            laps_data = self.telemetry_to_json(laps_data)
-            driversLaps[driver.code] = laps_data
+            driver_laps = laps.pick_driver(driver.code)
 
-        headers = {'Content-Type': 'application/json'}
-        return make_response({'carsData': driversLaps}, 200, headers)
+            # for k in range(len(driver_laps.columns)):
+            #     print(driver_laps.columns[k])
 
-    def telemetry_to_json(self, telemetry):
-        jsonData = []
-        for i in range(len(telemetry)):
-            tel = telemetry[i]
-            data = {}
+            print()
+            if 'DriverNumber' in driver_laps.columns:
+                try:
+                    pos = driver_laps.get_pos_data()
+                    drivers_positions_data[driver.code] = position_to_json(pos)
+                except ValueError as e:
+                    print(e)
 
-            if 'Date' in tel.columns:
-                data["Date"] = tel['Date'].tolist()
+        toc = time.perf_counter()
+        print(f"Position data received in {toc - tic:0.4f} seconds")
+        return jsonify(drivers_positions_data)
 
-            if 'X' in tel.columns:
-                data["X"] = tel['X'].tolist()
-
-            if 'Y' in tel.columns:
-                data["Y"] = tel['Y'].tolist()
-
-            if 'Time' in tel.columns:
-                data["Time"] = tel['Time'].tolist()
-                for k in range(len(data["Time"])):
-                    data["Time"][k] = str(data["Time"][k])
-
-            if 'SessionTime' in tel.columns:
-                data["SessionTime"] = tel['SessionTime'].tolist()
-                for k in range(len(data["SessionTime"])):
-                    data["SessionTime"][k] = str(data["SessionTime"][k])
-
-            jsonData.append(data)
-
-        return jsonData
+        # driversLaps = {}
+        # for i in range(len(drivers)):
+        #     driver = drivers[i]
+        #     print(f'Getting data for {driver.code} in {gp_name} {session_type}')
+        #     laps_data = get_car_position(gp_name, session_type, driver.code, from_lap, till_lap)
+        #     laps_data = self.telemetry_to_json(laps_data)
+        #     driversLaps[driver.code] = laps_data
+        #
+        # headers = {'Content-Type': 'application/json'}
+        # return make_response({'carsData': driversLaps}, 200, headers)

@@ -1,52 +1,49 @@
 def telemetry_to_json(telemetry):
-    json_data = []
-    for i in range(len(telemetry)):
-        tel = telemetry[i]
-        data = {}
+    # json_data = []
+    # tel = telemetry
+    data = {}
 
-        if 'RPM' in tel.columns:
-            data["RPM"] = tel['RPM'].tolist()
+    if 'RPM' in telemetry.columns:
+        data["RPM"] = telemetry['RPM'].tolist()
 
-        if 'Speed' in tel.columns:
-            data["Speed"] = tel['Speed'].tolist()
+    if 'Speed' in telemetry.columns:
+        data["Speed"] = telemetry['Speed'].tolist()
 
-        if 'nGear' in tel.columns:
-            data["nGear"] = tel['nGear'].tolist()
+    if 'nGear' in telemetry.columns:
+        data["nGear"] = telemetry['nGear'].tolist()
 
-        if 'Throttle' in tel.columns:
-            data["Throttle"] = tel['Throttle'].tolist()
+    if 'Throttle' in telemetry.columns:
+        data["Throttle"] = telemetry['Throttle'].tolist()
 
-        if 'Brake' in tel.columns:
-            data["Brake"] = tel['Brake'].tolist()
+    if 'Brake' in telemetry.columns:
+        data["Brake"] = telemetry['Brake'].tolist()
 
-        if 'DRS' in tel.columns:
-            data["DRS"] = tel['DRS'].tolist()
+    if 'DRS' in telemetry.columns:
+        data["DRS"] = telemetry['DRS'].tolist()
 
-        if 'Compound' in tel.columns:
-            data["Compound"] = tel['Compound'].tolist()
+    if 'Compound' in telemetry.columns:
+        data["Compound"] = telemetry['Compound'].tolist()
 
-        if 'TyreLife' in tel.columns:
-            data["TyreLife"] = tel['TyreLife'].tolist()
+    if 'TyreLife' in telemetry.columns:
+        data["TyreLife"] = telemetry['TyreLife'].tolist()
 
-        if 'TrackStatus' in tel.columns:
-            data["TrackStatus"] = tel['TrackStatus'].tolist()
+    if 'TrackStatus' in telemetry.columns:
+        data["TrackStatus"] = telemetry['TrackStatus'].tolist()
 
-        if 'Distance' in tel.columns:
-            data["Distance"] = tel['Distance'].tolist()
+    if 'Distance' in telemetry.columns:
+        data["Distance"] = telemetry['Distance'].tolist()
 
-        if 'DriverAhead' in tel.columns:
-            data["DriverAhead"] = tel['DriverAhead'].tolist()
+    if 'DriverAhead' in telemetry.columns:
+        data["DriverAhead"] = telemetry['DriverAhead'].tolist()
 
-        if 'Time' in tel.columns:
-            data["Time"] = tel['Time'].tolist()
-            for k in range(len(data["Time"])):
-                data["Time"][k] = str(data["Time"][k])
+    if 'Time' in telemetry.columns:
+        data["Time"] = telemetry['Time'].tolist()
+        for k in range(len(data["Time"])):
+            data["Time"][k] = str(data["Time"][k])
 
-        if 'SessionTime' in tel.columns:
-            data["SessionTime"] = tel['SessionTime'].tolist()
-            for k in range(len(data["SessionTime"])):
-                data["SessionTime"][k] = str(data["SessionTime"][k])
+    if 'SessionTime' in telemetry.columns:
+        data["SessionTime"] = telemetry['SessionTime'].tolist()
+        for k in range(len(data["SessionTime"])):
+            data["SessionTime"][k] = str(data["SessionTime"][k])
 
-        json_data.append(data)
-
-    return json_data
+    return data

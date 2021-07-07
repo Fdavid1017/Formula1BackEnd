@@ -36,6 +36,7 @@ ff1.Cache.enable_cache('cache')
 # Flask & Flask Restfull setup
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 api = Api(app)
 cache.init_app(app)
