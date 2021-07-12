@@ -18,7 +18,6 @@ from resources.driver_standings import DriverStandings
 from resources.drivers import Drivers
 from resources.gp_circuit import GpCircuit
 from resources.laps import Laps
-from resources.next_tweets import NextTweets
 from resources.practice import Practice
 from resources.qualifying import Qualifying
 from resources.race import Race
@@ -55,7 +54,6 @@ api.add_resource(GpCircuit, '/api/gpCircuit/<int:gp_round>', endpoint="circuit_f
 api.add_resource(CircuitGeoJson, '/api/circuitGeojson/<string:geojson_map>', endpoint="geojson_for_circuit")
 api.add_resource(Laps, '/api/laps/<string:gp_name>/<string:session_type>', endpoint="laps")
 api.add_resource(Tweets, '/api/tweets', endpoint="tweets")
-api.add_resource(NextTweets, '/api/next_tweets', endpoint="next_tweets")
 api.add_resource(Telemetry, '/api/telemetry/<string:gp_name>/<string:session_type>/<string:driver>',
                  endpoint="telemetry")
 api.add_resource(CarData, '/api/carData/<string:gp_name>/<string:session_type>/<string:driver>',
